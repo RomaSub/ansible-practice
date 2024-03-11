@@ -1,0 +1,30 @@
+- name: Create ~/.ssh directory
+  ansible.builtin.file:
+    path: "~/.ssh"
+    state: directory
+    mode: "0700"
+  tags:
+    - git_install
+
+- name: Install git
+  ansible.builtin.apt:
+    name: git
+    state: present
+  tags:
+    - git_install
+
+- name: Copy ssh key
+  ansible.builtin.copy:
+    src: "./ssh_keys/id_rsa"
+    dest: "~/.ssh/id_rsa"
+    mode: "0600"
+  tags:
+    - git_install
+
+- name: Copy ssh public key
+  ansible.builtin.copy:
+    src: "./ssh_keys/id_rsa.pub"
+    dest: "~/.ssh/id_rsa.pub"
+    mode: "0644"
+  tags:
+    - git_install

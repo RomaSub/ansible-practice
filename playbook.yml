@@ -1,0 +1,8 @@
+- name: start_server
+  hosts: server
+  become: yes
+  roles:
+    - create_user
+    - git_install
+    - git_clone
+    - nginx_actions

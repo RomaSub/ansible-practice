@@ -1,0 +1,4 @@
+ansible-playbook playbook.yml -i hosts.ini --tags create_user
+ansible-playbook playbook.yml -i hosts.ini --tags git_install
+ansible-playbook playbook.yml -i hosts.ini --tags git_clone
+ansible-playbook playbook.yml -i hosts.ini --tags nginx_actions

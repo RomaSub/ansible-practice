@@ -1,0 +1,38 @@
+- name: Nginx install
+  ansible.builtin.apt:
+    name: nginx
+    state: present
+    update_cache: yes
+  tags: nginx_actions
+
+- name: Copy index.html
+  ansible.builtin.copy:
+    src: "../files/index.html"
+    dest: "/home/ansible-worker/www/stud-template/index.html"
+    mode: "0644"
+  tags: nginx_actions
+
+- name: Set permissions for www-data group
+  ansible.builtin.file:
+    path: "/home/ansible-worker/www"
+    owner: www-data
+    group: ansible-worker
+    mode: "0755"
+    recurse: yes
+  become: yes
+  tags: nginx_actions
+
+- name: Copy nginx config
+  ansible.builtin.copy:
+    src: "../files/anisble_iphilka_ru.conf"
+    dest: /etc/nginx/sites-available/anisble_iphilka_ru.conf
+  notify: restart_nginx
+  tags: nginx_actions
+
+- name: Create link to nginx config
+  ansible.builtin.file:
+    src: /etc/nginx/sites-available/anisble_iphilka_ru.conf
+    dest: /etc/nginx/sites-enabled/anisble_iphilka_ru.conf
+    state: link
+  notify: restart_nginx
+  tags: nginx_actions

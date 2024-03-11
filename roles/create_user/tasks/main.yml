@@ -1,0 +1,14 @@
+- name: Create user
+  ansible.builtin.user:
+    name: ansible-worker
+    state: present
+    shell: /bin/bash
+    groups: www-data
+  tags: create_user
+
+- name: Create home directory
+  ansible.builtin.file:
+    path: "/home/ansible-worker"
+    owner: www-data
+    group: ansible-worker
+  tags: create_user
